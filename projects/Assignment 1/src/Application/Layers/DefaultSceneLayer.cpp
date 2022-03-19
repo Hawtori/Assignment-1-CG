@@ -47,6 +47,7 @@
 #include "Gameplay/Components/SimpleCameraControl.h"
 #include "Gameplay/Components/monkeyMovement.h"
 #include "Gameplay/Components/SquareMovement.h"
+//#include "Gameplay/Components/UIControls.h"
 
 // Physics
 #include "Gameplay/Physics/RigidBody.h"
@@ -359,16 +360,18 @@ void DefaultSceneLayer::_CreateScene()
 		physics->AddCollider(ConvexMeshCollider::Create());
 
 		/////////////////////////// UI //////////////////////////////
-		/*GameObject::Sptr canvas = scene->CreateGameObject("UI Canvas");
+		GameObject::Sptr canvas = scene->CreateGameObject("UI Canvas");
 		{
 			RectTransform::Sptr transform = canvas->Add<RectTransform>();
-			transform->SetMin({ 16, 16 });
+			transform->SetMin({ 4, 4 });
 			transform->SetMax({ 256, 256 });
 
 			GuiPanel::Sptr canPanel = canvas->Add<GuiPanel>();
 
+			//canvas->Add<UIControls>();
 
-			GameObject::Sptr subPanel = scene->CreateGameObject("Sub Item");
+
+			GameObject::Sptr subPanel = scene->CreateGameObject("No Light");
 			{
 				RectTransform::Sptr transform = subPanel->Add<RectTransform>();
 				transform->SetMin({ 10, 10 });
@@ -377,20 +380,34 @@ void DefaultSceneLayer::_CreateScene()
 				GuiPanel::Sptr panel = subPanel->Add<GuiPanel>();
 				panel->SetColor(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
 
-				panel->SetTexture(ResourceManager::CreateAsset<Texture2D>("textures/upArrow.png"));
-
 				Font::Sptr font = ResourceManager::CreateAsset<Font>("fonts/Roboto-Medium.ttf", 16.0f);
 				font->Bake();
 
 				GuiText::Sptr text = subPanel->Add<GuiText>();
-				text->SetText("Hello world!");
+				text->SetText("1 = No Lighting");
 				text->SetFont(font);
-
-				monkey1->Get<JumpBehaviour>()->Panel = text;
 			}
-
 			canvas->AddChild(subPanel);
-		}*/
+			
+			GameObject::Sptr subPanel2 = scene->CreateGameObject("Ambient");
+			{
+				RectTransform::Sptr transform = subPanel2->Add<RectTransform>();
+				transform->SetMin({ 10, 10 });
+				transform->SetMax({ 128, 128 });
+
+				GuiPanel::Sptr panel = subPanel2->Add<GuiPanel>();
+				panel->SetColor(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+				subPanel2->Get<RectTransform>()->SetPosition(glm::vec2(187.f, 68.f));
+
+				Font::Sptr font = ResourceManager::CreateAsset<Font>("fonts/Roboto-Medium.ttf", 16.0f);
+				font->Bake();
+
+				GuiText::Sptr text = subPanel2->Add<GuiText>();
+				text->SetText("2 = Ambient Lighting");
+				text->SetFont(font);
+			}
+			canvas->AddChild(subPanel2);
+		}
 
 		GuiBatcher::SetDefaultTexture(ResourceManager::CreateAsset<Texture2D>("textures/ui-sprite.png"));
 		GuiBatcher::SetDefaultBorderRadius(8);
